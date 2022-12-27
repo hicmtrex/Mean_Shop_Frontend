@@ -1,0 +1,212 @@
+<div class="container p-10 m-auto">
+  <h1 class="mb-3 text-xl font-bold">Add Product</h1>
+  <form
+    class="grid w-full grid-cols-1 gap-5 overflow-auto md:grid-cols-2"
+    [formGroup]="formData"
+    (ngSubmit)="submit()"
+  >
+    <div class="">
+      <label
+        for="name"
+        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+        >Name</label
+      >
+      <input
+        formControlName="name"
+        id="name"
+        placeholder="Name"
+        class="modal__input"
+        [ngClass]="{
+          ' border-red-500':
+            formData.get('name')?.invalid && formData.get('name')?.touched
+        }"
+      />
+
+      <p
+        *ngIf="formData.get('name')?.invalid && formData.get('name')?.touched"
+        class="mt-2 text-sm text-red-600 dark:text-red-500"
+      >
+        <span class="font-medium">Name is required</span>
+      </p>
+    </div>
+    <div>
+      <label
+        for="image"
+        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+        >Image</label
+      >
+      <input
+        formControlName="image"
+        id="image"
+        type="url"
+        placeholder="Image"
+        class="modal__input"
+        [ngClass]="{
+          ' border-red-500':
+            formData.get('image')?.invalid && formData.get('image')?.touched
+        }"
+      />
+
+      <p
+        *ngIf="formData.get('image')?.invalid && formData.get('image')?.touched"
+        class="mt-2 text-sm text-red-600 dark:text-red-500"
+      >
+        <span class="font-medium">Image is required</span>
+      </p>
+    </div>
+    <div>
+      <label
+        for="price"
+        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+        >Price</label
+      >
+      <input
+        formControlName="price"
+        id="price"
+        type="number"
+        placeholder="Price"
+        class="modal__input"
+        [ngClass]="{
+          ' border-red-500':
+            formData.get('price')?.invalid && formData.get('price')?.touched
+        }"
+      />
+
+      <p
+        *ngIf="formData.get('price')?.invalid && formData.get('price')?.touched"
+        class="mt-2 text-sm text-red-600 dark:text-red-500"
+      >
+        <span class="font-medium">Price is required</span>
+      </p>
+    </div>
+    <div>
+      <label
+        for="category"
+        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+        >Category</label
+      >
+      <input
+        formControlName="category"
+        id="category"
+        placeholder="category"
+        class="modal__input"
+        [ngClass]="{
+          ' border-red-500':
+            formData.get('category')?.invalid &&
+            formData.get('category')?.touched
+        }"
+      />
+
+      <p
+        *ngIf="
+          formData.get('category')?.invalid && formData.get('category')?.touched
+        "
+        class="mt-2 text-sm text-red-600 dark:text-red-500"
+      >
+        <span class="font-medium">category is required</span>
+      </p>
+    </div>
+    <div>
+      <label
+        for="brand"
+        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+        >brand</label
+      >
+      <input
+        formControlName="brand"
+        id="brand"
+        placeholder="brand"
+        class="modal__input"
+        [ngClass]="{
+          ' border-red-500':
+            formData.get('brand')?.invalid && formData.get('brand')?.touched
+        }"
+      />
+
+      <p
+        *ngIf="formData.get('brand')?.invalid && formData.get('brand')?.touched"
+        class="mt-2 text-sm text-red-600 dark:text-red-500"
+      >
+        <span class="font-medium">brand is required</span>
+      </p>
+    </div>
+    <div>
+      <label
+        for="specifications"
+        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+        >specifications</label
+      >
+      <div class="flex items-center space-x-2">
+        <input
+          formControlName="specifications"
+          id="specifications"
+          placeholder="specifications"
+          class="modal__input"
+          [ngClass]="{
+            ' border-red-500':
+              formData.get('specifications')?.invalid &&
+              formData.get('specifications')?.touched
+          }"
+        />
+        <button
+          class="p-2 text-center bg-purple-600 rounded text-gray-50"
+          type="button"
+          (click)="setSpecifications()"
+        >
+          Add
+        </button>
+      </div>
+    </div>
+    <div class="flex items-center space-x-2">
+      <p
+        *ngFor="let spec of specification; let index = index"
+        class="p-2 text-center bg-purple-600 rounded text-gray-50"
+      >
+        <span> {{ spec }}</span>
+        <span
+          (click)="removeSpec(index)"
+          class="ml-2 text-xl font-bold cursor-pointer"
+          >&times;</span
+        >
+      </p>
+    </div>
+    <div class="w-full col-span-2">
+      <label
+        for="description"
+        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+        >description</label
+      >
+      <textarea
+        rows="3"
+        formControlName="description"
+        id="description"
+        placeholder="description"
+        class="modal__input"
+        [ngClass]="{
+          ' border-red-500':
+            formData.get('description')?.invalid &&
+            formData.get('description')?.touched
+        }"
+      ></textarea>
+
+      <p
+        *ngIf="
+          formData.get('description')?.invalid &&
+          formData.get('description')?.touched
+        "
+        class="mt-2 text-sm text-red-600 dark:text-red-500"
+      >
+        <span class="font-medium">brand is required</span>
+      </p>
+    </div>
+
+    <button
+      [ngClass]="{ ' cursor-not-allowed': formData.invalid }"
+      [disabled]="formData.invalid"
+      type="submit"
+      class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+    >
+      Submit
+    </button>
+  </form>
+</div>

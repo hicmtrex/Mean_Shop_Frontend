@@ -1,0 +1,252 @@
+<!-- <div class="container">
+  <h2 class="mt-5 mb-4">Angular Stripe Checkout Example</h2>
+  <div class="mb-2 col-md-5">
+    <button (click)="makePayment(15)" class="btn btn-danger btn-block">
+      Pay $15
+    </button>
+  </div>
+  <div class="mb-2 col-md-5">
+    <button (click)="makePayment(25)" class="btn btn-primary btn-block">
+      Pay $25
+    </button>
+  </div>
+  <div class="col-md-5">
+    <button (click)="makePayment(35)" class="btn btn-success btn-block">
+      Pay $35
+    </button>
+  </div>
+  {{ order?._id }}
+</div> -->
+
+<div class="px-4 py-5 md:px-6 2xl:px-20 2xl:container 2xl:mx-auto">
+  <div class="flex flex-col justify-start space-y-2 item-start">
+    <h1
+      class="text-3xl font-semibold leading-7 text-gray-800 lg:text-4xl lg:leading-9"
+    >
+      Order Details
+    </h1>
+    <p class="text-base font-medium leading-6 text-gray-600">
+      {{ order?.createdAt | date }}
+    </p>
+  </div>
+  <div
+    class="flex flex-col items-stretch w-full mt-10 space-y-4 xl:flex-row jusitfy-center xl:space-x-8 md:space-y-6 xl:space-y-0"
+  >
+    <div
+      class="flex flex-col items-start justify-start w-full space-y-4 md:space-y-6 xl:space-y-8"
+    >
+      <div
+        class="flex flex-col items-start justify-start w-full px-4 py-4 bg-gray-50 md:py-6 md:p-6 xl:p-8"
+      >
+        <p
+          class="flex items-center justify-between w-full text-lg font-semibold text-gray-800 md:text-xl 5"
+        >
+          <span> Order id {{ order?._id }}</span>
+          <span
+            class="p-2 text-sm text-gray-100 bg-green-500 rounded bg-greed-500"
+            *ngIf="order?.isPaid"
+            >Paid</span
+          >
+          <span
+            class="p-2 text-sm text-gray-100 bg-red-500 rounded"
+            *ngIf="!order?.isPaid"
+          >
+            Not Paid</span
+          >
+        </p>
+
+        <div
+          *ngFor="let item of order?.cartItems"
+          class="flex flex-col items-start justify-start w-full mt-4 md:mt-6 md:flex-row md:items-center md:space-x-6 xl:space-x-8"
+        >
+          <div class="w-full pb-4 md:pb-8 md:w-40">
+            <img
+              class="hidden w-full md:block"
+              src="{{
+                item.image.includes('/images')
+                  ? 'assets' + item.image
+                  : item.image
+              }}"
+              alt="dress"
+            />
+            <img
+              class="w-full md:hidden"
+              src="{{
+                item.image.includes('/images')
+                  ? 'assets' + item.image
+                  : item.image
+              }}"
+              alt="dress"
+            />
+          </div>
+          <div
+            class="flex flex-col items-start justify-between w-full pb-8 space-y-4 border-b border-gray-200 md:flex-row md:space-y-0"
+          >
+            <div
+              class="flex flex-col items-start justify-start w-full space-y-8"
+            >
+              <h3
+                class="text-xl font-semibold leading-6 text-gray-800 xl:text-2xl"
+              >
+                {{ item?.name }}
+              </h3>
+            </div>
+            <div class="flex items-start justify-between w-full space-x-8">
+              <p class="text-base leading-6 xl:text-lg">
+                {{ item.price | currency }}
+              </p>
+              <p class="text-base leading-6 text-gray-800 xl:text-lg">
+                {{ item.qty }}
+              </p>
+              <p
+                class="text-base font-semibold leading-6 text-gray-800 xl:text-lg"
+              >
+                {{ item.qty * item.price | currency }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="flex flex-col items-stretch justify-center w-full space-y-4 md:flex-row md:space-y-0 md:space-x-6 xl:space-x-8"
+      >
+        <div
+          class="flex flex-col w-full px-4 py-6 space-y-6 md:p-6 xl:p-8 bg-gray-50"
+        >
+          <h3 class="text-xl font-semibold leading-5 text-gray-800">Summary</h3>
+          <div
+            class="flex flex-col items-center justify-center w-full pb-4 space-y-4 border-b border-gray-200"
+          >
+            <div class="flex justify-between w-full">
+              <p class="text-base leading-4 text-gray-800">Subtotal</p>
+              <p class="text-base leading-4 text-gray-600">
+                {{ order?.totalPrice }}
+              </p>
+            </div>
+            <div class="flex items-center justify-between w-full">
+              <p class="text-base leading-4 text-gray-800">
+                Discount
+                <span
+                  class="p-1 text-xs font-medium leading-3 text-gray-800 bg-gray-200"
+                  >STUDENT</span
+                >
+              </p>
+              <p class="text-base leading-4 text-gray-600">-$28.00 (50%)</p>
+            </div>
+            <div class="flex items-center justify-between w-full">
+              <p class="text-base leading-4 text-gray-800">Shipping</p>
+              <p class="text-base leading-4 text-gray-600">$8.00</p>
+            </div>
+          </div>
+          <div class="flex items-center justify-between w-full">
+            <p class="text-base font-semibold leading-4 text-gray-800">Total</p>
+            <p class="text-base font-semibold leading-4 text-gray-600">
+              {{ order?.totalPrice | currency }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="flex flex-col items-center justify-between w-full px-4 py-6 bg-gray-50 xl:w-96 md:items-start md:p-6 xl:p-8"
+    >
+      <h3 class="text-xl font-semibold leading-5 text-gray-800">Customer</h3>
+      <div
+        class="flex flex-col items-stretch justify-start w-full h-full md:flex-row xl:flex-col md:space-x-6 lg:space-x-8 xl:space-x-0"
+      >
+        <div class="flex flex-col items-start justify-start flex-shrink-0">
+          <div
+            class="flex items-center justify-center w-full py-8 space-x-4 border-b border-gray-200 md:justify-start"
+          >
+            <img [src]="order?.user?.image" alt="avatar" class="h-14 w-14" />
+            <div class="flex flex-col items-start justify-start space-y-2">
+              <p
+                class="text-base font-semibold leading-4 text-left text-gray-800"
+              >
+                {{ order?.user?.username }}
+              </p>
+              <p class="text-sm leading-5 text-gray-600">10 Previous Orders</p>
+            </div>
+          </div>
+
+          <div
+            class="flex items-center justify-center w-full py-4 space-x-4 border-b border-gray-200 md:justify-start"
+          >
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M19 5H5C3.89543 5 3 5.89543 3 7V17C3 18.1046 3.89543 19 5 19H19C20.1046 19 21 18.1046 21 17V7C21 5.89543 20.1046 5 19 5Z"
+                stroke="#1F2937"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M3 7L12 13L21 7"
+                stroke="#1F2937"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            <p class="text-sm leading-5 text-gray-800 cursor-pointer">
+              {{ order?.user?.email }}
+            </p>
+          </div>
+        </div>
+        <div
+          class="flex flex-col items-stretch justify-between w-full mt-6 xl:h-full md:mt-0"
+        >
+          <div
+            class="flex flex-col items-center justify-center space-y-4 md:justify-start xl:flex-col md:space-x-6 lg:space-x-8 xl:space-x-0 xl:space-y-12 md:space-y-0 md:flex-row md:items-start"
+          >
+            <div
+              class="flex flex-col items-center justify-center space-y-4 md:justify-start md:items-start xl:mt-8"
+            >
+              <p
+                class="text-base font-semibold leading-4 text-center text-gray-800 md:text-left"
+              >
+                Shipping Address
+              </p>
+              <p
+                class="w-48 text-sm leading-5 text-center text-gray-600 lg:w-full xl:w-48 md:text-left"
+              >
+                {{ order?.shippingAddress?.address }}
+                {{ order?.shippingAddress?.city }}
+                {{ order?.shippingAddress?.postalCode }}
+                {{ order?.shippingAddress?.country }}
+              </p>
+            </div>
+          </div>
+          <div
+            *ngIf="!order?.isPaid"
+            class="flex items-center justify-center w-full md:justify-start md:items-start"
+          >
+            <button
+              (click)="makePayment(order?.totalPrice)"
+              class="flex items-center justify-between px-3 checkout__button"
+            >
+              <span>Payment</span>
+              <span>{{ order?.totalPrice | currency }}</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<form action="/charge" method="post" id="payment-form">
+  <div class="form-row">
+    <label for="card-element"> Credit or debit card </label>
+    <div id="card-element">
+      <!-- a Stripe Element will be inserted here. -->
+    </div>
+    <!-- Used to display form errors -->
+    <div id="card-errors" role="alert"></div>
+  </div>
+  <input type="submit" class="submit" value="Submit Payment" />
+</form>

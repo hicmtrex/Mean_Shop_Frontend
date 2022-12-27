@@ -1,0 +1,117 @@
+<div class="bg-gray-100">
+  <div class="container p-5 mx-auto my-5" *ngIf="user">
+    <div class="md:flex no-wrap md:-mx-2">
+      <!-- Left Side -->
+      <div class="w-full md:w-3/12 md:mx-2">
+        <!-- Profile Card -->
+        <div class="p-3 bg-white border-t-4 border-green-400">
+          <div class="overflow-hidden image">
+            <img class="w-full h-auto mx-auto" [src]="user.image" alt="" />
+          </div>
+          <h1 class="my-1 text-xl font-bold leading-8 text-gray-900">
+            {{ user.username }}
+          </h1>
+          <h3 class="leading-6 text-gray-600 font-lg text-semibold">
+            {{ user.isAdmin ? "Admin" : "Client" }}
+          </h3>
+          <p class="text-sm leading-6 text-gray-500 hover:text-gray-600">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            Reprehenderit, eligendi dolorum sequi illum qui unde aspernatur non
+            deserunt
+          </p>
+          <ul
+            class="px-3 py-2 mt-3 text-gray-600 bg-gray-100 divide-y rounded shadow-sm hover:text-gray-700 hover:shadow"
+          >
+            <li class="flex items-center py-3">
+              <span>Status</span>
+              <span class="ml-auto"
+                ><span class="px-2 py-1 text-sm text-white bg-green-500 rounded"
+                  >Active</span
+                ></span
+              >
+            </li>
+            <li class="flex items-center py-3">
+              <span>Member since</span>
+              <span class="ml-auto">{{ user.createdAt | date }}</span>
+            </li>
+          </ul>
+        </div>
+        <!-- End of profile card -->
+        <div class="my-4"></div>
+      </div>
+      <!-- Right Side -->
+      <div class="w-full h-64 mx-2 md:w-9/12">
+        <!-- Profile tab -->
+        <!-- About Section -->
+        <div class="p-3 bg-white rounded-sm shadow-sm">
+          <div
+            class="flex items-center space-x-2 font-semibold leading-8 text-gray-900"
+          >
+            <span clas="text-green-500">
+              <svg
+                class="h-5"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                />
+              </svg>
+            </span>
+            <span class="tracking-wide">About</span>
+          </div>
+          <div class="text-gray-700">
+            <div class="grid text-sm md:grid-cols-2">
+              <div class="grid grid-cols-2 py-2 border-b border-gray-200">
+                <div class="px-4 py-2 font-semibold">Username</div>
+                <div class="px-4 py-2">{{ user.username }}</div>
+              </div>
+              <div class="grid grid-cols-2 border-b border-gray-200">
+                <div class="px-4 py-2 font-semibold">Email</div>
+                <div class="px-4 py-2">{{ user.email }}</div>
+              </div>
+              <ng-container *ngIf="cartService.shippingAddress">
+                <div class="grid grid-cols-2 py-2 border-b border-gray-200">
+                  <div class="px-4 py-2 font-semibold">Current Address</div>
+                  <div class="px-4 py-2">
+                    {{ cartService.shippingAddress.address }}
+                  </div>
+                </div>
+                <div class="grid grid-cols-2 py-2 border-b border-gray-200">
+                  <div class="px-4 py-2 font-semibold">City</div>
+                  <div class="px-4 py-2">
+                    {{ cartService.shippingAddress.city }}
+                  </div>
+                </div>
+                <div class="grid grid-cols-2 py-2 border-b border-gray-200">
+                  <div class="px-4 py-2 font-semibold">Potal Code</div>
+                  <div class="px-4 py-2">
+                    {{ cartService.shippingAddress.postalCode }}
+                  </div>
+                </div>
+                <div class="grid grid-cols-2 py-2 border-b border-gray-200">
+                  <div class="px-4 py-2 font-semibold">Country</div>
+                  <div class="px-4 py-2">
+                    {{ cartService.shippingAddress.country }}
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+          <button
+            (click)="openModal(user)"
+            class="block w-full p-3 my-4 text-sm font-semibold text-blue-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:shadow-outline focus:bg-gray-100 hover:shadow-xs"
+          >
+            Update Profile
+          </button>
+        </div>
+        <!-- End of about section -->
+      </div>
+    </div>
+  </div>
+</div>

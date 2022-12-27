@@ -1,0 +1,104 @@
+<div
+  class="w-full px-4 mx-auto overflow-hidden bg-white rounded shadow sm:px-8"
+>
+  <div class="w-full py-8 overflow-x-auto">
+    <div class="flex items-center min-w-full p-3 px-5 space-x-10 bg-white">
+      <h2 class="text-2xl font-bold leading-tight">My Orders List</h2>
+
+      <div class="flex-1 space-y-3 md:flex-row md:space-x-3 md:space-y-0"></div>
+    </div>
+    <div class="">
+      <div class="inline-block min-w-full overflow-x-auto rounded-lg shadow">
+        <!--Table-->
+        <div class="w-full overflow-x-auto bg-white rounded-lg shadow-md">
+          <div class="w-full overflow-x-auto">
+            <table class="min-w-full leading-normal">
+              <thead>
+                <tr>
+                  <th
+                    *ngFor="let header of theades"
+                    scope="col"
+                    class="px-5 py-3 text-sm font-normal text-left text-gray-100 uppercase bg-gray-700 border-b border-gray-200"
+                  >
+                    {{ header }}
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  *ngFor="let order of orders"
+                  class="bg-white border-b dark:bg-gray-900 dark:border-gray-700"
+                >
+                  <td class="px-6 py-4 text-base font-semibold">
+                    <p class="text-gray-900 whitespace-no-wrap">
+                      {{ order.totalPrice | currency }}
+                    </p>
+                  </td>
+                  <td class="px-6 py-4 text-base font-semibold">
+                    <p class="text-gray-900 whitespace-no-wrap">
+                      {{ order.shippingAddress.address }}
+                    </p>
+                  </td>
+                  <td class="px-6 py-4 text-base font-semibold">
+                    <p class="text-gray-900 whitespace-no-wrap">
+                      {{ order.createdAt | date }}
+                    </p>
+                  </td>
+
+                  <td class="px-6 py-4 text-base font-semibold">
+                    <span
+                      *ngIf="order.isPaid"
+                      class="relative inline-block px-3 py-1 font-semibold leading-tight"
+                    >
+                      <span
+                        class="absolute inset-0 text-white bg-green-400 rounded-full"
+                      >
+                      </span>
+                      <span class="relative text-white"> Paid </span>
+                    </span>
+                    <span
+                      *ngIf="!order.isPaid"
+                      class="relative inline-block px-3 py-1 font-semibold leading-tight"
+                    >
+                      <span
+                        class="absolute inset-0 text-white bg-red-400 rounded-full"
+                      >
+                      </span>
+                      <span class="relative text-white"> Not Paid </span>
+                    </span>
+                  </td>
+                  <td
+                    class="px-5 py-5 text-sm bg-white border-b border-gray-200"
+                  >
+                    <div
+                      *ngIf="order.isPaid"
+                      class="flex items-center space-x-5"
+                    >
+                      <a
+                        [routerLink]="['/orders', order._id]"
+                        class="main__button"
+                        >View</a
+                      >
+                    </div>
+
+                    <div
+                      class="flex items-center space-x-5"
+                      *ngIf="!order.isPaid"
+                    >
+                      <a
+                        [routerLink]="['/orders', order._id]"
+                        class="paynow__button"
+                        >Pay Now</a
+                      >
+                      <button class="edit__delete__table">Cancel</button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,89 @@
+<nav
+  class="relative z-10 flex flex-wrap items-center justify-between px-6 py-4 bg-white shadow-xl md:left-0 md:block md:fixed md:top-0 md:bottom-0 md:overflow-y-auto md:flex-row md:flex-nowrap md:overflow-hidden md:w-64"
+>
+  <div
+    class="flex flex-wrap items-center justify-between w-full px-0 mx-auto md:flex-col md:items-stretch md:min-h-full md:flex-nowrap"
+  >
+    <!-- Toggler -->
+    <button
+      class="px-3 py-1 text-xl leading-none text-black bg-transparent border border-transparent border-solid rounded opacity-50 cursor-pointer md:hidden"
+      type="button"
+      (click)="toggleCollapseShow('bg-white m-2 py-3 px-6')"
+    >
+      <i class="fas fa-bars"></i>
+    </button>
+    <!-- Brand -->
+    <a routerLink="/" class="flex items-center">
+      <img
+        src="https://i.pinimg.com/originals/6c/46/34/6c4634f46b82335be82b2502c63d76cb.jpg"
+        class="h-6 mr-3 sm:h-9"
+        alt="Flowbite Logo"
+      />
+      <span
+        class="self-center text-xl font-semibold whitespace-nowrap dark:text-white"
+        >Meanshop</span
+      >
+    </a>
+    <!-- User -->
+    <ul class="flex flex-wrap items-center list-none md:hidden">
+      <li class="relative inline-block"></li>
+      <li class="relative inline-block"></li>
+    </ul>
+    <!-- Collapse -->
+    <div
+      class="absolute top-0 left-0 right-0 z-40 items-center flex-1 h-auto overflow-x-hidden overflow-y-auto rounded shadow md:flex md:flex-col md:items-stretch md:opacity-100 md:relative md:mt-4 md:shadow-none"
+      [ngClass]="collapseShow"
+    >
+      <!-- Collapse header -->
+      <div
+        class="block pb-4 mb-4 border-b border-solid md:min-w-full md:hidden border-blueGray-200"
+      >
+        <div class="flex flex-wrap">
+          <div class="w-6/12">
+            <a
+              class="inline-block p-4 px-0 mr-0 text-sm font-bold text-left uppercase md:block md:pb-2 text-blueGray-600 whitespace-nowrap"
+              href="javascript:void(0)"
+            >
+              Tailwind Starter Kit
+            </a>
+          </div>
+          <div class="flex justify-end w-6/12">
+            <button
+              type="button"
+              class="px-3 py-1 text-xl leading-none text-black bg-transparent border border-transparent border-solid rounded opacity-50 cursor-pointer md:hidden"
+              (click)="toggleCollapseShow('hidden')"
+            >
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- Form -->
+      <form class="mt-6 mb-4 md:hidden">
+        <div class="pt-0 mb-3">
+          <input
+            type="text"
+            placeholder="Search"
+            class="w-full h-12 px-3 py-2 text-base font-normal leading-snug bg-white border border-solid rounded shadow-none outline-none border-blueGray-500 placeholder-blueGray-300 text-blueGray-600 focus:outline-none"
+          />
+        </div>
+      </form>
+      <!-- Navigation -->
+      <ul class="flex flex-col list-none md:flex-col md:min-w-full">
+        <li *ngFor="let item of navLinks">
+          <a
+            class="flex items-center justify-start w-full p-4 my-2 font-thin text-blue-500 uppercase transition-colors duration-200 hover:border-r-4 hover:border-blue-500 bg-gradient-to-r from-white to-blue-100 dark:from-gray-700 dark:to-gray-800"
+            [routerLink]="item.link"
+          >
+            <span class="text-left">
+              <fa-icon [icon]="item.icon"></fa-icon>
+            </span>
+            <span class="mx-4 text-sm font-normal"> {{ item.name }} </span>
+          </a>
+        </li>
+      </ul>
+      <!-- Divider -->
+      <hr class="my-4 md:min-w-full" />
+    </div>
+  </div>
+</nav>

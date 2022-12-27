@@ -1,0 +1,94 @@
+<div class="container p-10 m-auto">
+  <h1 class="mb-3 text-xl font-bold text-purple-500">Update Profile</h1>
+  <form
+    class="grid w-full grid-cols-1 gap-5 overflow-auto"
+    [formGroup]="formData"
+    (ngSubmit)="submit()"
+  >
+    <div class="">
+      <label
+        for="username"
+        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+        >Username</label
+      >
+      <input
+        formControlName="username"
+        id="username"
+        placeholder="Username"
+        class="modal__input"
+        [ngClass]="{
+          ' border-red-500':
+            formData.get('username')?.invalid &&
+            formData.get('username')?.touched
+        }"
+      />
+
+      <p
+        *ngIf="
+          formData.get('username')?.invalid && formData.get('username')?.touched
+        "
+        class="mt-2 text-sm text-red-600 dark:text-red-500"
+      >
+        <span class="font-medium">Username is required</span>
+      </p>
+    </div>
+
+    <div>
+      <label
+        for="email"
+        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+        >Email</label
+      >
+      <input
+        formControlName="email"
+        id="email"
+        placeholder="email"
+        class="modal__input"
+        [ngClass]="{
+          ' border-red-500':
+            formData.get('email')?.invalid && formData.get('email')?.touched
+        }"
+      />
+
+      <p
+        *ngIf="formData.get('email')?.invalid && formData.get('email')?.touched"
+        class="mt-2 text-sm text-red-600 dark:text-red-500"
+      >
+        <span class="font-medium">Email is required</span>
+      </p>
+    </div>
+    <div
+      (click)="setTogglePassword()"
+      class="flex items-center justify-between"
+    >
+      <label
+        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+        >Change Password ?</label
+      >
+      <i class="fas fa-caret-down"></i>
+    </div>
+
+    <div *ngIf="togglePassword">
+      <label
+        for="password"
+        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+        >New Password</label
+      >
+      <input
+        formControlName="password"
+        id="password"
+        placeholder="********"
+        class="modal__input"
+      />
+    </div>
+
+    <button
+      [ngClass]="{ ' cursor-not-allowed': formData.invalid }"
+      [disabled]="formData.invalid"
+      type="submit"
+      class="w-full text-white bg-purple-600 hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+    >
+      Submit
+    </button>
+  </form>
+</div>

@@ -1,0 +1,121 @@
+<div class="container justify-center w-auto m-auto md:w-1/3">
+  <div class="p-5 bg-white rounded-lg">
+    <h1 class="text-2xl font-bold text-center">Shipping Address</h1>
+    <form [formGroup]="formData" class="flex flex-col pt-3" (submit)="submit()">
+      <div class="flex flex-col pt-4">
+        <label
+          for="address"
+          class="block mb-2 font-medium text-gray-900 dark:text-white"
+          >Address</label
+        >
+        <input
+          formControlName="address"
+          id="address"
+          class="address__input"
+          placeholder="Address"
+          [ngClass]="{
+            'border-2 border-red-500':
+              formData.get('address')?.invalid &&
+              formData.get('address')?.touched
+          }"
+        />
+
+        <p
+          *ngIf="
+            formData.get('address')?.invalid && formData.get('address')?.touched
+          "
+          class="mt-2 text-sm text-red-600 dark:text-red-500"
+        >
+          <span class="font-medium">Address is required</span>
+        </p>
+      </div>
+      <div class="flex flex-col pt-4 mb-2">
+        <label
+          for="city"
+          class="block mb-2 font-medium text-gray-900 dark:text-white"
+          >City</label
+        >
+        <input
+          formControlName="city"
+          id="city"
+          class="address__input"
+          placeholder="City"
+          [ngClass]="{
+            'border-2 border-red-500':
+              formData.get('city')?.invalid && formData.get('city')?.touched
+          }"
+        />
+
+        <p
+          *ngIf="formData.get('city')?.invalid && formData.get('city')?.touched"
+          class="mt-2 text-sm text-red-600 dark:text-red-500"
+        >
+          <span class="font-medium">City is required</span>
+        </p>
+      </div>
+      <div class="flex flex-col pt-4 mb-2">
+        <label
+          for="postalCode"
+          class="block mb-2 font-medium text-gray-900 dark:text-white"
+          >Postal Code</label
+        >
+        <input
+          formControlName="postalCode"
+          id="postalCode"
+          class="address__input"
+          placeholder="Postal Code"
+          [ngClass]="{
+            'border-2 border-red-500':
+              formData.get('postalCode')?.invalid &&
+              formData.get('postalCode')?.touched
+          }"
+        />
+
+        <p
+          *ngIf="
+            formData.get('postalCode')?.invalid &&
+            formData.get('postalCode')?.touched
+          "
+          class="mt-2 text-sm text-red-600 dark:text-red-500"
+        >
+          <span class="font-medium">Postal Code is required</span>
+        </p>
+      </div>
+      <div class="flex flex-col pt-4 mb-12">
+        <label
+          for="country"
+          class="block mb-2 font-medium text-gray-900 dark:text-white"
+          >Country</label
+        >
+        <input
+          formControlName="country"
+          id="country"
+          class="address__input"
+          placeholder="Country"
+          [ngClass]="{
+            'border-2 border-red-500':
+              formData.get('country')?.invalid &&
+              formData.get('country')?.touched
+          }"
+        />
+
+        <p
+          *ngIf="
+            formData.get('country')?.invalid && formData.get('country')?.touched
+          "
+          class="mt-2 text-sm text-red-600 dark:text-red-500"
+        >
+          <span class="font-medium">Country is required</span>
+        </p>
+      </div>
+      <button
+        [ngClass]="{ 'cursor-not-allowed': formData.invalid }"
+        [disabled]="formData.invalid"
+        type="submit"
+        class="w-full px-4 py-2 text-base font-semibold text-center text-white transition duration-200 ease-in bg-purple-600 shadow-md hover:text-black hover:bg-purple-400 focus:outline-none focus:ring-2"
+      >
+        <span class="w-full"> Submit </span>
+      </button>
+    </form>
+  </div>
+</div>

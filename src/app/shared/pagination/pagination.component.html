@@ -1,0 +1,9 @@
+<div class="flex items-center" *ngIf="pages > 1">
+  <button
+    *ngFor="let x of array"
+    type="button"
+    class="w-full px-4 py-2 text-base text-indigo-500 bg-white border-t border-b hover:bg-gray-100"
+  >
+    {{ x + 1 }}
+  </button>
+</div>

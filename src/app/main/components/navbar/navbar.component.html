@@ -1,0 +1,191 @@
+<nav class="px-2 py-4 bg-white border-gray-200 shadow md:px-4 dark:bg-gray-900">
+  <div
+    class="flex flex-wrap items-center justify-between max-w-screen-xl mx-auto"
+  >
+    <a routerLink="/" class="flex items-center">
+      <img
+        src="https://i.pinimg.com/originals/6c/46/34/6c4634f46b82335be82b2502c63d76cb.jpg"
+        class="h-6 mr-3 sm:h-9"
+        alt="Flowbite Logo"
+      />
+      <span
+        class="self-center text-sm font-semibold md:text-xl whitespace-nowrap dark:text-white"
+        >Meanshop</span
+      >
+    </a>
+    <div class="flex items-center space-x-4 md:order-2">
+      <a routerLink="/cart" class="relative mr-3 text-2xl text-white text-md">
+        <span
+          class="absolute flex items-center justify-center w-5 h-5 text-sm bg-red-500 rounded-full right-2 leading"
+        >
+          {{ cartService.cartItems.length }}
+        </span>
+        <fa-icon [icon]="cartIcon" class="text-black"></fa-icon>
+      </a>
+
+      <a
+        *ngIf="!authSerice.checkIsAuth()"
+        routerLink="/login"
+        class="text-gray-800 dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 py-2 md:px-5 md:py-2.5 mr-1 md:mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800"
+        >Login</a
+      >
+      <a
+        *ngIf="!authSerice.checkIsAuth()"
+        routerLink="/register"
+        class="text-white bg-purple-600 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-4 py-2 md:px-5 md:py-2.5 mr-1 md:mr-2 dark:bg-purple-600 dark:hover:bg-purple-700 focus:outline-none dark:focus:ring-blue-800"
+        >Sign up</a
+      >
+
+      <!-- Dropdown menu -->
+      <div
+        *ngIf="authSerice.checkIsAuth()"
+        id="dropdownSmall"
+        class="z-50 hidden bg-white divide-y divide-gray-100 rounded shadow w-44 dark:bg-gray-700 dark:divide-gray-600"
+      >
+        <div class="px-4 py-3 text-sm text-gray-900 dark:text-white">
+          <div>Bonnie Green</div>
+          <div class="font-medium truncate">name@flowbite.com</div>
+        </div>
+        <ul
+          class="py-1 text-sm text-gray-700 dark:text-gray-200"
+          aria-labelledby="dropdownSmallButton"
+        >
+          <li>
+            <a
+              routerLink="/dashboard"
+              class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+              >Dashboard</a
+            >
+          </li>
+          <li>
+            <a
+              href="#"
+              class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+              >Settings</a
+            >
+          </li>
+          <li>
+            <a
+              href="#"
+              class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+              >Earnings</a
+            >
+          </li>
+        </ul>
+        <div class="py-1">
+          <a
+            href="#"
+            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+            >Sign out</a
+          >
+        </div>
+      </div>
+      <div class="relative z-30 bg-white" *ngIf="authSerice.checkIsAuth()">
+        <div
+          (click)="toggleDropdown()"
+          class="relative z-50 flex items-center justify-center px-4 py-2 bg-white border rounded-md cursor-pointer w-fit border-1 border-neutral-400"
+        >
+          <div class="mr-2">
+            <img
+              class="w-8 h-8 rounded-full"
+              [src]="authSerice.user?.image"
+              alt="user photo"
+            />
+          </div>
+          <div>
+            <i class="fas fa-caret-down"></i>
+          </div>
+        </div>
+        <!-- The div containing the available items -->
+        <div
+          *ngIf="showDropdown"
+          class="absolute py-1 bg-white border rounded-md cursor-pointer mt- w-full2 w-fit border-1 border-neutral-400"
+        >
+          <div class="px-4 py-3">
+            <span class="block text-sm text-gray-900 dark:text-white">{{
+              authSerice.user?.username
+            }}</span>
+            <span
+              class="block text-sm font-medium text-gray-500 truncate dark:text-gray-400"
+              >{{ authSerice.user?.email }}</span
+            >
+          </div>
+          <ul class="py-1" aria-labelledby="user-menu-button">
+            <li *ngIf="authSerice.user?.isAdmin">
+              <a
+                routerLink="/dashboard"
+                (click)="toggleDropdown()"
+                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                >Dashboard</a
+              >
+            </li>
+            <li>
+              <a
+                (click)="toggleDropdown()"
+                [routerLink]="['/profile', authSerice.user?._id]"
+                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                >My Profile</a
+              >
+            </li>
+            <li>
+              <a
+                (click)="toggleDropdown()"
+                routerLink="/order-history"
+                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                >Order Hestory</a
+              >
+            </li>
+            <li>
+              <a
+                (click)="userLogout(); toggleDropdown()"
+                class="block px-4 py-2 text-sm text-gray-700 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                >Sign out</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <button
+        data-collapse-toggle="mega-menu"
+        type="button"
+        class="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+        aria-controls="mega-menu"
+        aria-expanded="false"
+      >
+        <span class="sr-only">Open main menu</span>
+        <svg
+          aria-hidden="true"
+          class="w-6 h-6"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+            clip-rule="evenodd"
+          ></path>
+        </svg>
+      </button>
+    </div>
+
+    <div
+      id="mega-menu"
+      class="items-center justify-between hidden w-full text-sm md:flex md:w-auto md:order-1"
+    >
+      <ul
+        class="flex flex-col mt-4 font-medium md:flex-row md:space-x-8 md:mt-0"
+      >
+        <li *ngFor="let item of navLinks">
+          <a
+            routerLinkActive=""
+            routerLink="{{ item.link }}"
+            class="block p-3 ml-3 font-bold duration-300 ease-in-out rounded text-md hover:bg-purple-500 hover:text-gray-50"
+            >{{ item.name }}</a
+          >
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

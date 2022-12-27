@@ -1,0 +1,75 @@
+<div class="w-full overflow-hidden bg-white rounded-lg shadow-md">
+  <div class="w-full overflow-x-auto">
+    <table class="min-w-full leading-normal">
+      <thead>
+        <tr>
+          <th
+            *ngFor="let header of theades"
+            scope="col"
+            class="px-5 py-3 text-sm font-normal text-left text-gray-100 uppercase bg-gray-700 border-b border-gray-200"
+          >
+            {{ header }}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let product of products"
+          class="bg-white border-b dark:bg-gray-900 dark:border-gray-700"
+        >
+          <td class="px-6 py-4 text-base font-semibold">
+            <div class="flex items-center">
+              <div class="flex-shrink-0">
+                <a href="#" class="relative block">
+                  <img
+                    alt="profil"
+                    src="assets{{ product.image }}"
+                    class="object-cover w-10 h-10 mx-auto rounded-full"
+                  />
+                </a>
+              </div>
+              <div class="ml-3">
+                <p class="text-gray-900 whitespace-no-wrap">
+                  {{ product.name }}
+                </p>
+              </div>
+            </div>
+          </td>
+          <td class="px-6 py-4 text-base font-semibold">
+            <p class="text-gray-900 whitespace-no-wrap">
+              {{ product.brand }}
+            </p>
+          </td>
+          <td class="px-6 py-4 text-base font-semibold">
+            <p class="text-gray-900 whitespace-no-wrap">
+              {{ product.createdAt | date }}
+            </p>
+          </td>
+          <td class="px-6 py-4 text-base font-semibold">
+            <span
+              class="relative inline-block px-3 py-1 font-semibold leading-tight text-green-900"
+            >
+              <span
+                aria-hidden="true"
+                class="absolute inset-0 bg-green-200 rounded-full opacity-50"
+              >
+              </span>
+              <span class="relative"> active </span>
+            </span>
+          </td>
+          <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+            <div class="flex items-center space-x-5">
+              <button (click)="openUpdate()" class="main__button">Edit</button>
+              <button
+                (click)="deleteProduct(product._id)"
+                class="edit__delete__table"
+              >
+                Del
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

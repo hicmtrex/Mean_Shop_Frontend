@@ -1,0 +1,84 @@
+<table class="min-w-full leading-normal">
+  <thead>
+    <tr>
+      <th
+        scope="col"
+        class="px-5 py-3 text-sm font-normal text-left text-gray-800 uppercase bg-white border-b border-gray-200"
+      >
+        Product
+      </th>
+      <th
+        scope="col"
+        class="px-5 py-3 text-sm font-normal text-left text-gray-800 uppercase bg-white border-b border-gray-200"
+      >
+        Brand
+      </th>
+      <th
+        scope="col"
+        class="px-5 py-3 text-sm font-normal text-left text-gray-800 uppercase bg-white border-b border-gray-200"
+      >
+        Created at
+      </th>
+      <th
+        scope="col"
+        class="px-5 py-3 text-sm font-normal text-left text-gray-800 uppercase bg-white border-b border-gray-200"
+      >
+        status
+      </th>
+      <th
+        scope="col"
+        class="px-5 py-3 text-sm font-normal text-left text-gray-800 uppercase bg-white border-b border-gray-200"
+      ></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let product of products">
+      <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+        <div class="flex items-center">
+          <div class="flex-shrink-0">
+            <a href="#" class="relative block">
+              <img
+                alt="profil"
+                src="assets{{ product.image }}"
+                class="object-cover w-10 h-10 mx-auto rounded-full"
+              />
+            </a>
+          </div>
+          <div class="ml-3">
+            <p class="text-gray-900 whitespace-no-wrap">
+              {{ product.name }}
+            </p>
+          </div>
+        </div>
+      </td>
+      <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+        <p class="text-gray-900 whitespace-no-wrap">
+          {{ product.brand }}
+        </p>
+      </td>
+      <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+        <p class="text-gray-900 whitespace-no-wrap">
+          {{ product.createdAt | date }}
+        </p>
+      </td>
+      <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+        <span
+          class="relative inline-block px-3 py-1 font-semibold leading-tight text-green-900"
+        >
+          <span
+            aria-hidden="true"
+            class="absolute inset-0 bg-green-200 rounded-full opacity-50"
+          >
+          </span>
+          <span class="relative"> active </span>
+        </span>
+      </td>
+      <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+        <div class="flex items-center space-x-5">
+          <button class="main__button">Edit</button>
+          <button class="main__button">Edit</button>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>

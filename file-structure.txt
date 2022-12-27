@@ -1,0 +1,23 @@
+-Views
+ -Home
+ -Products
+   -Components :
+     - All Products
+     - Product Details
+  -Services
+      -product.service
+
+-Carts
+    
+     Components :
+     - Cart
+
+     Services
+      -cart.service
+
+-Shared 
+     Components :
+     - navbar
+     -select
+     Services
+      -cart.service

@@ -1,0 +1,136 @@
+<div
+  class="w-full px-4 mx-auto overflow-hidden bg-white rounded shadow sm:px-8"
+>
+  <div class="w-full py-8 overflow-x-auto">
+    <div class="flex p-3 px-5 bg-white">
+      <h2
+        class="text-base font-normal leading-tight sm:w-1/5 sm:text-2xl sm:font-bold"
+      >
+        Products List
+      </h2>
+
+      <div class="sm:w-3/5">
+        <input
+          (keyup)="setSearch($event)"
+          id="form-subscribe-Filter"
+          class="w-full px-4 py-2 text-base text-gray-700 placeholder-gray-400 bg-white border border-transparent border-gray-300 rounded-lg shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+          placeholder="Name Search"
+        />
+      </div>
+      <div class="sm:w-1/5">
+        <button
+          (click)="open()"
+          class="p-2 ml-3 text-white bg-purple-500 rounded"
+        >
+          Add Product
+        </button>
+      </div>
+    </div>
+    <div class="">
+      <div class="inline-block min-w-full overflow-hidden rounded-lg shadow">
+        <!--Table-->
+        <div class="w-full overflow-hidden bg-white rounded-lg shadow-md">
+          <div class="w-full overflow-x-auto">
+            <table class="min-w-full leading-normal">
+              <thead>
+                <tr>
+                  <th
+                    *ngFor="let header of theades"
+                    scope="col"
+                    class="px-5 py-3 text-sm font-normal text-left text-gray-100 uppercase bg-gray-700 border-b border-gray-200"
+                  >
+                    {{ header }}
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  *ngFor="let product of products"
+                  class="bg-white border-b dark:bg-gray-900 dark:border-gray-700"
+                >
+                  <td class="px-6 py-4 text-base font-semibold">
+                    <div class="flex items-center">
+                      <div class="flex-shrink-0">
+                        <a href="#" class="relative block">
+                          <img
+                            alt="profil"
+                            src="{{
+                              product.image.includes('/images')
+                                ? 'assets' + product.image
+                                : product.image
+                            }}"
+                            class="object-cover w-10 h-10 mx-auto rounded-full"
+                          />
+                        </a>
+                      </div>
+                      <div class="ml-3">
+                        <p class="text-gray-900 whitespace-no-wrap">
+                          {{ product.name }}
+                        </p>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 text-base font-semibold">
+                    <p class="text-gray-900 whitespace-no-wrap">
+                      {{ product.brand }}
+                    </p>
+                  </td>
+                  <td class="px-6 py-4 text-base font-semibold">
+                    <p class="text-gray-900 whitespace-no-wrap">
+                      {{ product.createdAt | date }}
+                    </p>
+                  </td>
+                  <td class="px-6 py-4 text-base font-semibold">
+                    <span
+                      class="relative inline-block px-3 py-1 font-semibold leading-tight text-green-900"
+                    >
+                      <span
+                        aria-hidden="true"
+                        class="absolute inset-0 bg-green-200 rounded-full opacity-50"
+                      >
+                      </span>
+                      <span class="relative"> active </span>
+                    </span>
+                  </td>
+                  <td
+                    class="px-5 py-5 text-sm bg-white border-b border-gray-200"
+                  >
+                    <div class="flex items-center space-x-5">
+                      <button
+                        (click)="openUpdate(product)"
+                        class="main__button"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        (click)="deleteProduct(product._id)"
+                        class="edit__delete__table"
+                      >
+                        Del
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div
+          class="flex flex-col items-center px-5 py-5 bg-white xs:flex-row xs:justify-between"
+        >
+          <div class="flex items-center" *ngIf="pages > 1">
+            <button
+              [ngClass]="{ ' bg-purple-600 text-gray-50': page === x + 1 }"
+              *ngFor="let x of array"
+              class="w-full px-4 py-2 text-base text-indigo-500 bg-white border-t border-b hover:bg-gray-100"
+              (click)="setPage(x + 1)"
+            >
+              {{ x + 1 }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

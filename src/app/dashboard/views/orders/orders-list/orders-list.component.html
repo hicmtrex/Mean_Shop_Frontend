@@ -1,0 +1,117 @@
+<div
+  class="w-full px-4 mx-auto overflow-hidden bg-white rounded shadow sm:px-8"
+>
+  <div class="w-full py-8 overflow-x-auto">
+    <div class="flex items-center min-w-full p-3 px-5 space-x-10 bg-white">
+      <h2 class="text-2xl font-bold leading-tight">Orders List</h2>
+
+      <div class="flex-1 space-y-3 md:flex-row md:space-x-3 md:space-y-0"></div>
+    </div>
+    <div class="">
+      <div class="inline-block min-w-full overflow-x-auto rounded-lg shadow">
+        <!--Table-->
+        <div class="w-full overflow-hidden bg-white rounded-lg shadow-md">
+          <div class="w-full overflow-x-auto">
+            <table class="min-w-full leading-normal">
+              <thead>
+                <tr>
+                  <th
+                    *ngFor="let header of theades"
+                    scope="col"
+                    class="px-5 py-3 text-sm font-normal text-left text-gray-100 uppercase bg-gray-700 border-b border-gray-200"
+                  >
+                    {{ header }}
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  *ngFor="let order of orders"
+                  class="bg-white border-b dark:bg-gray-900 dark:border-gray-700"
+                >
+                  <td class="px-6 py-4 text-base font-semibold">
+                    <p class="text-gray-900 whitespace-no-wrap">
+                      {{ order.user.username }}
+                    </p>
+                  </td>
+                  <td class="px-6 py-4 text-base font-semibold">
+                    <p class="text-gray-900 whitespace-no-wrap">
+                      {{ order.totalPrice | currency }}
+                    </p>
+                  </td>
+                  <td class="px-6 py-4 text-base font-semibold">
+                    <p class="text-gray-900 whitespace-no-wrap">
+                      {{ order.shippingAddress.address }}
+                    </p>
+                  </td>
+                  <td class="px-6 py-4 text-base font-semibold">
+                    <p class="text-gray-900 whitespace-no-wrap">
+                      {{ order.createdAt | date }}
+                    </p>
+                  </td>
+
+                  <td class="px-6 py-4 text-base font-semibold">
+                    <span
+                      *ngIf="order.isPaid"
+                      class="relative inline-block px-3 py-1 font-semibold leading-tight text-green-900"
+                    >
+                      <span
+                        aria-hidden="true"
+                        class="absolute inset-0 bg-green-400 rounded-full"
+                      >
+                      </span>
+                      <span class="relative text-white"> Paid </span>
+                    </span>
+                    <span
+                      *ngIf="!order.isPaid"
+                      class="relative inline-block px-3 py-1 font-semibold leading-tight text-green-900"
+                    >
+                      <span
+                        aria-hidden="true"
+                        class="absolute inset-0 bg-red-500 rounded-full"
+                      >
+                      </span>
+                      <span class="relative text-white"> Not Paid </span>
+                    </span>
+                  </td>
+                  <td
+                    class="px-5 py-5 text-sm bg-white border-b border-gray-200"
+                  >
+                    <div class="flex items-center space-x-5">
+                      <a
+                        [routerLink]="['/orders', order._id]"
+                        class="main__button"
+                        >View</a
+                      >
+                      <button
+                        (click)="deleteOrder(order._id)"
+                        class="edit__delete__table"
+                      >
+                        Del
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div
+          class="flex flex-col items-center px-5 py-5 bg-white xs:flex-row xs:justify-between"
+        >
+          <div class="flex items-center" *ngIf="pages > 1">
+            <button
+              [ngClass]="{ ' bg-purple-600 text-gray-50': page === x + 1 }"
+              *ngFor="let x of array"
+              class="w-full px-4 py-2 text-base text-indigo-500 bg-white border-t border-b hover:bg-gray-100"
+              (click)="setPage(x + 1)"
+            >
+              {{ x + 1 }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
