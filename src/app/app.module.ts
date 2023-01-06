@@ -30,7 +30,7 @@ import { ToastrModule } from 'ngx-toastr';
     HttpClientModule,
     NgxWebstorageModule.forRoot(),
     CoreModule,
-    NgxSpinnerModule.forRoot({ type: 'ball-scale-multiple' }),
+    NgxSpinnerModule.forRoot({ type: 'square-jelly-box' }),
     NgIconsModule.withIcons({ heroUsers }),
     FontAwesomeModule,
     ProductsModule,
