@@ -1,13 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { GetProducts } from 'src/app/dashboard/context/interfaces/product.interface';
 import { MainproductServiceService } from '../../services/context/mainproduct-service.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.css'],
 })
-export class ProductsComponent implements OnInit {
+export class ProductsComponent implements OnInit, OnDestroy {
+  dataSub!: Subscription;
   products: GetProducts[] = [];
   categories: string[] = [];
   page: number = 1;
@@ -19,7 +21,7 @@ export class ProductsComponent implements OnInit {
   constructor(private productService: MainproductServiceService) {}
 
   getFiltredProducts() {
-    this.productService
+    this.dataSub = this.productService
       .getFiltredProducts({
         search: this.search,
         page: this.page,
@@ -59,5 +61,8 @@ export class ProductsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getFiltredProducts();
+  }
+  ngOnDestroy(): void {
+    this.dataSub.unsubscribe();
   }
 }
