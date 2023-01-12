@@ -1,24 +1,7 @@
-<!-- <div class="container">
-  <h2 class="mt-5 mb-4">Angular Stripe Checkout Example</h2>
-  <div class="mb-2 col-md-5">
-    <button (click)="makePayment(15)" class="btn btn-danger btn-block">
-      Pay $15
-    </button>
-  </div>
-  <div class="mb-2 col-md-5">
-    <button (click)="makePayment(25)" class="btn btn-primary btn-block">
-      Pay $25
-    </button>
-  </div>
-  <div class="col-md-5">
-    <button (click)="makePayment(35)" class="btn btn-success btn-block">
-      Pay $35
-    </button>
-  </div>
-  {{ order?._id }}
-</div> -->
-
-<div class="px-4 py-5 md:px-6 2xl:px-20 2xl:container 2xl:mx-auto">
+<div
+  class="px-4 py-5 md:px-6 2xl:px-20 2xl:container 2xl:mx-auto"
+  *ngIf="order$ | async as order"
+>
   <div class="flex flex-col justify-start space-y-2 item-start">
     <h1
       class="text-3xl font-semibold leading-7 text-gray-800 lg:text-4xl lg:leading-9"

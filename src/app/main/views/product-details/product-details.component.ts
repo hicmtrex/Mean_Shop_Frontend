@@ -3,43 +3,42 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { GetProducts } from 'src/app/dashboard/context/interfaces/product.interface';
 import { CartServiceService } from '../../services/context/cart-service.service';
 import { MainproductServiceService } from '../../services/context/mainproduct-service.service';
-import { Subscription } from 'rxjs';
+import { Observable, takeUntil, tap } from 'rxjs';
+import { Unsub } from 'src/app/shared/unsub';
 
 @Component({
   selector: 'app-product-details',
   templateUrl: './product-details.component.html',
   styleUrls: ['./product-details.component.css'],
 })
-export class ProductDetailsComponent implements OnInit, OnDestroy {
+export class ProductDetailsComponent
+  extends Unsub
+  implements OnInit, OnDestroy
+{
   id: any = this.route.snapshot.paramMap.get('id');
-  product!: GetProducts;
+  product$!: Observable<GetProducts>;
   ratings: number[] = [];
-  dataSub!: Subscription;
+
   constructor(
     private route: ActivatedRoute,
     private productService: MainproductServiceService,
     private cartService: CartServiceService,
     private router: Router
-  ) {}
-
-  getProductById() {
-    this.dataSub = this.productService.getProductById(this.id).subscribe({
-      next: (res: any) => {
-        this.product = res;
-        this.ratings = [...Array(res.rating).keys()];
-      },
-    });
+  ) {
+    super();
   }
 
-  addToCart() {
-    this.cartService.addToCart(this.product);
+  addToCart(p: GetProducts) {
+    this.cartService.addToCart(p);
     this.router.navigate(['/cart']);
   }
 
   ngOnInit(): void {
-    this.getProductById();
-  }
-  ngOnDestroy(): void {
-    this.dataSub.unsubscribe();
+    this.product$ = this.productService.getProductById(this.id).pipe(
+      takeUntil(this.unsubscribe$),
+      tap((res: any) => {
+        this.ratings = [...Array(res.rating).keys()];
+      })
+    );
   }
 }

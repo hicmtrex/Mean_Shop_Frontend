@@ -1,16 +1,15 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { GetProducts } from 'src/app/dashboard/context/interfaces/product.interface';
 import { MainproductServiceService } from '../../services/context/mainproduct-service.service';
-import { Subscription } from 'rxjs';
+import { map, Observable, takeUntil } from 'rxjs';
+import { Unsub } from 'src/app/shared/unsub';
 
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.css'],
 })
-export class ProductsComponent implements OnInit, OnDestroy {
-  dataSub!: Subscription;
-  products: GetProducts[] = [];
+export class ProductsComponent extends Unsub implements OnInit, OnDestroy {
   categories: string[] = [];
   page: number = 1;
   pages: number = 1;
@@ -18,22 +17,27 @@ export class ProductsComponent implements OnInit, OnDestroy {
   category: string = '';
   timeOutId: any;
   array: number[] = [];
-  constructor(private productService: MainproductServiceService) {}
+  products$!: Observable<GetProducts[]>;
+
+  constructor(private productService: MainproductServiceService) {
+    super();
+  }
 
   getFiltredProducts() {
-    this.dataSub = this.productService
+    this.products$ = this.productService
       .getFiltredProducts({
         search: this.search,
         page: this.page,
         category: this.category,
       })
-      .subscribe({
-        next: (res: any) => {
-          this.products = res.products;
+      .pipe(
+        takeUntil(this.unsubscribe$),
+        map((res: any) => {
           this.categories = res.categories;
           this.setPages(res.pages);
-        },
-      });
+          return res.products;
+        })
+      );
   }
 
   setSearch(event: KeyboardEvent) {
@@ -61,8 +65,5 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getFiltredProducts();
-  }
-  ngOnDestroy(): void {
-    this.dataSub.unsubscribe();
   }
 }

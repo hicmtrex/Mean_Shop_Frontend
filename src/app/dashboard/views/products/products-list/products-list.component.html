@@ -45,7 +45,7 @@
               </thead>
               <tbody>
                 <tr
-                  *ngFor="let product of products"
+                  *ngFor="let product of products$ | async"
                   class="bg-white border-b dark:bg-gray-900 dark:border-gray-700"
                 >
                   <td class="px-6 py-4 text-base font-semibold">

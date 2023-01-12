@@ -1,31 +1,25 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { map, Observable, takeUntil } from 'rxjs';
 import { GetProducts } from 'src/app/dashboard/context/interfaces/product.interface';
-import { metaProducts } from 'src/assets/data/products';
+import { Unsub } from 'src/app/shared/unsub';
 import { MainproductServiceService } from '../../services/context/mainproduct-service.service';
-import { ProductsType } from '../../services/interfaces/product.interface';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
 })
-export class HomeComponent implements OnInit, OnDestroy {
-  products: GetProducts[] = [];
-  dataSub!: Subscription;
-  constructor(private productSerive: MainproductServiceService) {}
+export class HomeComponent extends Unsub implements OnInit, OnDestroy {
+  products$!: Observable<GetProducts[]>;
 
-  getProducts() {
-    this.dataSub = this.productSerive.getAllProducts().subscribe({
-      next: (res: any) => {
-        this.products = res.products;
-      },
-    });
+  constructor(private productSerive: MainproductServiceService) {
+    super();
   }
+
   ngOnInit(): void {
-    this.getProducts();
-  }
-  ngOnDestroy(): void {
-    this.dataSub.unsubscribe();
+    this.products$ = this.productSerive.getAllProducts().pipe(
+      takeUntil(this.unsubscribe$),
+      map((data: any) => data.products)
+    );
   }
 }

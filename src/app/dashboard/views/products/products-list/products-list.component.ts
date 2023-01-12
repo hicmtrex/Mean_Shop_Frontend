@@ -5,14 +5,15 @@ import { DialogService } from '@ngneat/dialog';
 import { ProductModalComponent } from 'src/app/dashboard/containers/modals/product-modal/product-modal.component';
 import { UpdateproductModalComponent } from 'src/app/dashboard/containers/modals/updateproduct-modal/updateproduct-modal.component';
 import { ToastrService } from 'ngx-toastr';
+import { map, Observable, takeUntil } from 'rxjs';
+import { Unsub } from 'src/app/shared/unsub';
 
 @Component({
   selector: 'app-products-list',
   templateUrl: './products-list.component.html',
   styleUrls: ['./products-list.component.css'],
 })
-export class ProductsListComponent implements OnInit {
-  products: GetProducts[] = [];
+export class ProductsListComponent extends Unsub implements OnInit {
   theades: string[] = ['Product', 'Brand', 'Created At', 'Status', 'Actions'];
   categories: string[] = [];
   page: number = 1;
@@ -20,23 +21,27 @@ export class ProductsListComponent implements OnInit {
   search: string = '';
   timeOutId: any;
   array: number[] = [];
+  products$!: Observable<GetProducts[]>;
 
   constructor(
     private productService: ProductServiceService,
     public toast: ToastrService,
     private dialog: DialogService
-  ) {}
+  ) {
+    super();
+  }
 
   getProducts(): void {
-    this.productService
+    this.products$ = this.productService
       .getAllProducts({ search: this.search, page: this.page, category: '' })
-      .subscribe({
-        next: (res: any) => {
-          this.products = res.products;
+      .pipe(
+        takeUntil(this.unsubscribe$),
+        map((res: any) => {
           this.categories = res.categories;
           this.setPages(res.pages);
-        },
-      });
+          return res.products;
+        })
+      );
   }
 
   deleteProduct = (args: any): void => {
@@ -78,18 +83,18 @@ export class ProductsListComponent implements OnInit {
     });
   }
 
-  setPage(p: number) {
+  setPage(p: number): void {
     this.page = p;
     this.getProducts();
   }
 
-  setPages(p: number) {
+  setPages(p: number): number {
     this.array = [...Array(p).keys()];
     return (this.pages = p);
   }
 
-  setSearch(event: any) {
-    this.search = event.target.value;
+  setSearch(event: Event): void {
+    this.search = (<HTMLInputElement>event.target).value;
     clearTimeout(this.timeOutId);
     this.timeOutId = setTimeout(() => {
       this.getProducts();

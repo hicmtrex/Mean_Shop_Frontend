@@ -2,7 +2,7 @@
   <h1 class="text-4xl font-bold text-purple-600">Latest Products</h1>
   <div class="grid gap-8 py-12 md:px-5 md:grid-cols-3">
     <app-product-card
-      *ngFor="let product of products"
+      *ngFor="let product of products$ | async"
       [product]="product"
     ></app-product-card>
   </div>

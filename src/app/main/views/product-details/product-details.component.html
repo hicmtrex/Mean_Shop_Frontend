@@ -1,5 +1,5 @@
 <section class="overflow-hidden text-gray-700 bg-white body-font">
-  <div class="px-5 py-24" *ngIf="product">
+  <div class="px-5 py-24" *ngIf="product$ | async as product">
     <div class="flex flex-wrap">
       <img
         alt="ecommerce"
@@ -55,7 +55,7 @@
         </p>
 
         <div class="flex items-center pt-3 border-t-2 border-gray-200">
-          <button (click)="addToCart()" class="main__button">
+          <button (click)="addToCart(product)" class="main__button">
             Add To Cart
           </button>
         </div>

@@ -1,17 +1,20 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { Observable, takeUntil } from 'rxjs';
 import { OrderServiceService } from 'src/app/main/services/context/order-service.service';
 import { OrderData } from 'src/app/main/services/interfaces/order.interface';
+import { Unsub } from 'src/app/shared/unsub';
 
 @Component({
   selector: 'app-order-details',
   templateUrl: './order-details.component.html',
   styleUrls: ['./order-details.component.css'],
 })
-export class OrderDetailsComponent {
+export class OrderDetailsComponent extends Unsub {
   paymentHandler: any = null;
   order: OrderData | null = null;
+  order$!: Observable<any>;
   id: string | null = '';
   key: string =
     'pk_test_51KesRYH5cYomygyIVpcJgPzIuCxSTmCZVDP07aX5Rl6fkq3LxILNREpH5VuNCw9NnNNJey4LEnPsLFaTHJaq9AiP00FJmrxaq7';
@@ -21,14 +24,14 @@ export class OrderDetailsComponent {
     private orderService: OrderServiceService,
     private route: ActivatedRoute,
     public toast: ToastrService
-  ) {}
+  ) {
+    super();
+  }
 
   getOrderById() {
-    this.orderService.getOrderById(this.id).subscribe({
-      next: (res: any) => {
-        this.order = res;
-      },
-    });
+    this.order$ = this.orderService
+      .getOrderById(this.id)
+      .pipe(takeUntil(this.unsubscribe$));
   }
 
   ngOnInit() {

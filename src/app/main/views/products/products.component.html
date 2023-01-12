@@ -83,7 +83,7 @@
       </div>
       <div class="grid grid-cols-1 md:grid-cols-3">
         <div
-          *ngFor="let product of products"
+          *ngFor="let product of products$ | async"
           class="m-2 overflow-hidden bg-white rounded shadow-lg cursor-pointer"
           [routerLink]="['/products', product._id]"
         >
